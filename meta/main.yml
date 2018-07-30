@@ -1,0 +1,23 @@
+galaxy_info:
+  author: Janne Heß
+  description: Install a Jenkins JNLP slave
+  company: stuvus (https://stuvus.uni-stuttgart.de)
+
+  license: CC-BY-SA
+
+  min_ansible_version: 2.4
+
+  platforms:
+    - name: Debian
+      versions:
+        - stretch
+
+  galaxy_tags:
+    - jenkins
+    - ci
+    - build
+    - cloudbees
+    - slave
+    - client
+
+dependencies: []
