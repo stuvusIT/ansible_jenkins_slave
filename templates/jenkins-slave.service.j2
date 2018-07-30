@@ -1,0 +1,29 @@
+# {{ ansible_managed }}
+
+[Unit]
+Name=Jenkins slave daemon
+Wants=network.target
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/default/jenkins-slave
+ExecStart=/usr/bin/java -jar /var/lib/jenkins-slave/slave.jar -jnlpUrl ${JENKINS_URL}/computer/${JENKINS_NODE_NAME}/slave-agent.jnlp -secret=${JENKINS_SECRET}
+WorkingDirectory=/var/lib/jenkins-slave
+User=jenkins-slave
+Group=jenkins-slave
+Restart=always
+RuntimeDirectory=jenkins
+RuntimeDirectoryMode=0700
+CapabilityBoundingSet=
+DevicePolicy=closed
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+PrivateUsers=true
+ProtectHome=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ReadOnlyPaths=/etc /usr
+
+[Install]
+WantedBy=multi-user.target

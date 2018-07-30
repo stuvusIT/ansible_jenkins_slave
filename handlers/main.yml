@@ -1,0 +1,12 @@
+---
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+  listen: Reload systemd and restart Jenkins slave
+
+- name: Restart Jenkins slave
+  service:
+    name: jenkins-slave.service
+    state: restarted
+    enabled: true
+  listen: Reload systemd and restart Jenkins slave

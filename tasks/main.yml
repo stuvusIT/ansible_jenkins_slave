@@ -1,0 +1,44 @@
+---
+- name: Install Java
+  apt:
+    name: openjdk-8-jdk-headless
+
+- name: Create group
+  group:
+    name: jenkins-slave
+    system: true
+
+- name: Create user
+  user:
+    name: jenkins-slave
+    group: jenkins-slave
+    comment: Jenkins Slave user
+    home: /var/lib/jenkins-slave
+    system: true
+
+- name: Create unit
+  template:
+    src: jenkins-slave.service.j2
+    dest: /etc/systemd/system/jenkins-slave.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload systemd and restart Jenkins slave
+
+- name: Create default file
+  template:
+    src: jenkins-slave.default.j2
+    dest: /etc/default/jenkins-slave
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart Jenkins slave
+
+- name: Download slave jar
+  get_url:
+    url: "{{ jenkins_slave_master }}/jnlpJars/slave.jar"
+    dest: /var/lib/jenkins-slave/slave.jar
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart Jenkins slave
